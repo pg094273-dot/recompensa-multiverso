@@ -2048,6 +2048,16 @@ textarea.input {
 
 .challenge-row .mini-btn { width: 32px; height: 32px; font-size: 14px; }
 
+.recommend-box {
+  padding: 13px;
+  border-radius: 16px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(255, 176, 32, 0.28);
+  margin-bottom: 6px;
+}
+
+.recommend-box b { font-size: 13px; color: var(--accent); }
+
 /* Barra de scroll */
 
 ::-webkit-scrollbar { width: 0; height: 0; }
@@ -2228,40 +2238,50 @@ textarea.input {
 
   const CHALLENGES = {
     db: [
-      { icon: '🦵', text: 'Haz 10 sentadillas como un guerrero saiyan', points: 10 },
-      { icon: '💪', text: 'Aguanta 30 segundos en plancha', points: 15 },
-      { icon: '🦶', text: 'Salta 20 veces a la pata coja', points: 10 },
-      { icon: '🔥', text: 'Imita tu ataque más fuerte y grita su nombre', points: 5 },
-      { icon: '🌀', text: 'Respira hondo 5 veces para concentrar tu ki', points: 5 },
-      { icon: '🤝', text: 'Ayuda a tu hermano en algo sin que te lo pidan', points: 15 },
-      { icon: '🧸', text: 'Recoge 10 juguetes en menos de 1 minuto', points: 15 },
-      { icon: '💧', text: 'Bébete un vaso de agua', points: 5 },
-      { icon: '💥', text: 'Haz 5 flexiones (o con las rodillas apoyadas)', points: 10 },
-      { icon: '🏃', text: 'Carrera de 1 minuto por el pasillo', points: 10 }
+      { icon: '🦵', text: 'Haz 10 sentadillas contando en voz alta', points: 10 },
+      { icon: '🧘', text: 'Aguanta 20 segundos a la pata coja sin caerte', points: 10 },
+      { icon: '💪', text: 'Plancha de 15 segundos como un guerrero', points: 15 },
+      { icon: '🐻', text: 'Camina como un oso 30 segundos por la habitación', points: 10 },
+      { icon: '🦀', text: 'Da 10 pasos de cangrejo sin apoyar el culo', points: 10 },
+      { icon: '🐸', text: 'Da 10 saltos de rana suaves y sigue el ritmo', points: 10 },
+      { icon: '🧱', text: 'Apoya la espalda en la pared y aguanta 30 segundos', points: 10 },
+      { icon: '🌀', text: 'Da 5 vueltas y camina 5 pasos en línea recta', points: 10 },
+      { icon: '🥋', text: 'Inventa 3 posturas de guerrero y aguanta 5 segundos cada una', points: 15 },
+      { icon: '🕺', text: 'Baila 1 minuto moviendo brazos y piernas', points: 15 },
+      { icon: '🖐️', text: 'Toca 5 cosas azules de la habitación sin correr', points: 5 },
+      { icon: '🫁', text: 'Respira 5 veces profundo con los brazos arriba', points: 5 }
     ],
     ch: [
-      { icon: '⚽', text: 'Haz 20 toques de balón sin que caiga', points: 15 },
-      { icon: '🥅', text: 'Marca 5 goles en una portería pequeña', points: 10 },
-      { icon: '🦶', text: 'Da 10 pases con alguien de la familia', points: 10 },
-      { icon: '🤸', text: 'Estira como antes de un partido', points: 10 },
-      { icon: '✨', text: 'Inventa un truco nuevo con el balón', points: 15 },
-      { icon: '🛋️', text: 'Haz un túnel a un cojín', points: 5 },
-      { icon: '🏃', text: 'Corre 2 minutos sin parar', points: 10 },
-      { icon: '🍽️', text: 'Pon la mesa como un campeón', points: 10 },
-      { icon: '🎤', text: 'Canta el himno de tu equipo favorito', points: 5 },
-      { icon: '👟', text: 'Ordena tus zapatillas y las de casa', points: 10 }
+      { icon: '⚽', text: 'Haz 10 toques con un calcetín hecho bola sin que caiga', points: 10 },
+      { icon: '🎯', text: 'Encesta 3 calcetines en un cubo desde 2 pasos', points: 10 },
+      { icon: '🏓', text: 'Mantén un globo en el aire con 15 toques', points: 10 },
+      { icon: '🤝', text: 'Pasa una pelota 10 veces con alguien sin que caiga', points: 15 },
+      { icon: '🥅', text: 'Marca 5 goles en una portería de sillas con pelota de papel', points: 15 },
+      { icon: '🧺', text: 'Recoge 10 juguetes y llévalos al cesto en 1 minuto', points: 15 },
+      { icon: '🐍', text: 'Salta 5 cojines seguidos sin tocarlos', points: 15 },
+      { icon: '🧊', text: 'Quédate como una estatua 30 segundos sin moverte', points: 5 },
+      { icon: '🎈', text: 'No dejes que el globo toque el suelo durante 30 segundos', points: 10 },
+      { icon: '🏃', text: 'Corre en el sitio 20 segundos y luego camina 20', points: 10 },
+      { icon: '👟', text: 'Apila 4 pares de zapatillas sin que se caigan', points: 10 },
+      { icon: '🎤', text: 'Canta el estribillo de tu canción favorita con gestos', points: 10 },
+      { icon: '🤝', text: 'Ayuda a tu hermano en algo sin que te lo pidan', points: 20 }
     ],
     hp: [
-      { icon: '🔤', text: 'Aprende 3 palabras nuevas en inglés', points: 15 },
-      { icon: '📖', text: 'Lee 5 páginas de un libro', points: 15 },
-      { icon: '🪄', text: 'Escribe tu hechizo favorito en un papel', points: 5 },
-      { icon: '🧹', text: 'Ordena tu escritorio con magia', points: 10 },
-      { icon: '🔴', text: 'Encuentra un objeto rojo en 30 segundos', points: 5 },
-      { icon: '🏰', text: 'Dibuja tu casa de Hogwarts', points: 15 },
-      { icon: '🧪', text: 'Prepara una poción (un batido)', points: 15 },
-      { icon: '🔢', text: 'Recita los números del 1 al 20 en inglés', points: 10 },
-      { icon: '🤫', text: 'Haz una buena acción secreta', points: 20 },
-      { icon: '🧩', text: 'Resuelve un acertijo de mago', points: 10 }
+      { icon: '🔤', text: 'Di 5 animales en inglés', points: 10 },
+      { icon: '🔢', text: 'Cuenta de 2 en 2 hasta 20', points: 10 },
+      { icon: '📖', text: 'Lee 5 páginas de un libro en voz alta', points: 15 },
+      { icon: '🧠', text: 'Memoriza 4 objetos; que quiten uno y adivina cuál falta', points: 15 },
+      { icon: '✍️', text: 'Escribe una palabra nueva y su significado', points: 10 },
+      { icon: '🧩', text: 'Acertijo: tiene agujas y no cose. ¿Qué es? (pista: da la hora)', points: 10 },
+      { icon: '🎨', text: 'Dibuja tu castillo mágico y ponle nombre', points: 10 },
+      { icon: '🗣️', text: 'Cuenta lo mejor de tu día en 3 frases', points: 10 },
+      { icon: '🧪', text: 'Poción: mezcla agua con una gota de colorante y explica qué pasa', points: 15 },
+      { icon: '🔍', text: 'Encuentra 5 cosas que empiecen por la letra M', points: 10 },
+      { icon: '🤫', text: 'Haz una buena acción secreta y cuéntala después', points: 20 },
+      { icon: '📅', text: 'Di los días de la semana al revés', points: 15 },
+      { icon: '🧮', text: 'Resuelve 3+4, 5+2 y 6+6 en voz alta', points: 10 },
+      { icon: '🌱', text: 'Ordena tu escritorio con magia en 2 minutos', points: 10 },
+      { icon: '🧠', text: 'Repite 4 colores en el mismo orden que alguien diga', points: 10 }
     ]
   };
 
@@ -2788,7 +2808,7 @@ textarea.input {
   }
 
   function openChallengeManager() {
-    openModal('<h2>Retos de la ruleta</h2><p class="modal-sub">Añade, edita o borra los retos. La ruleta se actualiza al instante.</p>' + challengeManagerHTML() + '<div class="modal-actions"><button type="button" class="btn btn-block" data-action="openSettings">← Volver a ajustes</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cerrar</button></div>', { wide: true });
+    openModal('<h2>Retos de la ruleta</h2><p class="modal-sub">Añade, edita o borra los retos. La ruleta se actualiza al instante.</p><div class="recommend-box"><b>✨ Propuesta 6–8 años</b><p class="sw-sub" style="margin:4px 0 9px">Retos de 1–2 minutos, seguros en un piso y con materiales que ya tenéis en casa: movilidad, juego en equipo, memoria, lectura, inglés y valores.</p><button type="button" class="btn btn-block" data-action="loadRecommendedChallenges">Cargar los ' + DEFAULT_CHALLENGES.length + ' retos recomendados</button></div>' + challengeManagerHTML() + '<div class="modal-actions"><button type="button" class="btn btn-block" data-action="openSettings">← Volver a ajustes</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cerrar</button></div>', { wide: true });
   }
 
   function openChallengeForm(ch, realm) {
@@ -3410,6 +3430,20 @@ textarea.input {
       if (action === 'addChallenge') {
         ev.preventDefault();
         openChallengeForm(null, el.dataset.realm || 'db');
+        return;
+      }
+
+      // --- Cargar la propuesta de retos para 6-8 años ---
+      if (action === 'loadRecommendedChallenges') {
+        ev.preventDefault();
+        confirmAction('¿Cargar retos recomendados?', 'Se sustituirán los retos actuales por ' + DEFAULT_CHALLENGES.length + ' retos pensados para 6–8 años y para hacer en un piso. Después podrás editarlos o borrarlos.', 'Cargar retos', () => {
+          state.challenges = DEFAULT_CHALLENGES.map(c => ({ ...c, id: uid('ch') }));
+          wheelPicks = [];
+          save();
+          renderAll();
+          openChallengeManager();
+          toast('Retos recomendados cargados', '✨');
+        }, false);
         return;
       }
 
