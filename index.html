@@ -2058,6 +2058,58 @@ textarea.input {
 
 .recommend-box b { font-size: 13px; color: var(--accent); }
 
+/* ---------- Castigo ---------- */
+
+.pill-btn.danger {
+  background: rgba(251, 113, 133, 0.14);
+  border-color: rgba(251, 113, 133, 0.32);
+  color: #fecdd3;
+}
+
+.pill-btn.danger:active { background: rgba(251, 113, 133, 0.26); }
+
+.head-actions { flex-wrap: wrap; justify-content: flex-end; }
+
+.reason-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+
+.reason-chip {
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stroke);
+  transition: transform 0.12s, color 0.2s, background 0.2s;
+}
+
+.reason-chip:active { transform: scale(0.95); }
+
+.reason-chip.on {
+  color: #fecdd3;
+  background: rgba(251, 113, 133, 0.16);
+  border-color: rgba(251, 113, 133, 0.4);
+}
+
+.punish-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(251, 113, 133, 0.1);
+  border: 1px solid rgba(251, 113, 133, 0.3);
+  margin-bottom: 4px;
+}
+
+.punish-box span { font-size: 13px; font-weight: 800; color: #fecdd3; }
+.punish-box small { font-size: 11px; color: var(--muted); }
+
+@media (max-width: 420px) {
+  .head-actions { gap: 6px; }
+  .head-actions .pill-btn { padding: 8px 10px; font-size: 11.5px; }
+}
+
 /* Barra de scroll */
 
 ::-webkit-scrollbar { width: 0; height: 0; }
@@ -2238,50 +2290,50 @@ textarea.input {
 
   const CHALLENGES = {
     db: [
-      { icon: '🦵', text: 'Haz 10 sentadillas contando en voz alta', points: 10 },
-      { icon: '🧘', text: 'Aguanta 20 segundos a la pata coja sin caerte', points: 10 },
-      { icon: '💪', text: 'Plancha de 15 segundos como un guerrero', points: 15 },
-      { icon: '🐻', text: 'Camina como un oso 30 segundos por la habitación', points: 10 },
-      { icon: '🦀', text: 'Da 10 pasos de cangrejo sin apoyar el culo', points: 10 },
-      { icon: '🐸', text: 'Da 10 saltos de rana suaves y sigue el ritmo', points: 10 },
-      { icon: '🧱', text: 'Apoya la espalda en la pared y aguanta 30 segundos', points: 10 },
-      { icon: '🌀', text: 'Da 5 vueltas y camina 5 pasos en línea recta', points: 10 },
-      { icon: '🥋', text: 'Inventa 3 posturas de guerrero y aguanta 5 segundos cada una', points: 15 },
-      { icon: '🕺', text: 'Baila 1 minuto moviendo brazos y piernas', points: 15 },
+      { icon: '🦵', text: 'Haz 10 sentadillas contando en voz alta', points: 5 },
+      { icon: '🧘', text: 'Aguanta 20 segundos a la pata coja sin caerte', points: 5 },
+      { icon: '💪', text: 'Plancha de 15 segundos como un guerrero', points: 5 },
+      { icon: '🐻', text: 'Camina como un oso 30 segundos por la habitación', points: 5 },
+      { icon: '🦀', text: 'Da 10 pasos de cangrejo sin apoyar el culo', points: 5 },
+      { icon: '🐸', text: 'Da 10 saltos de rana suaves y sigue el ritmo', points: 5 },
+      { icon: '🧱', text: 'Apoya la espalda en la pared y aguanta 30 segundos', points: 5 },
+      { icon: '🌀', text: 'Da 5 vueltas y camina 5 pasos en línea recta', points: 5 },
+      { icon: '🥋', text: 'Inventa 3 posturas de guerrero y aguanta 5 segundos cada una', points: 5 },
+      { icon: '🕺', text: 'Baila 1 minuto moviendo brazos y piernas', points: 5 },
       { icon: '🖐️', text: 'Toca 5 cosas azules de la habitación sin correr', points: 5 },
       { icon: '🫁', text: 'Respira 5 veces profundo con los brazos arriba', points: 5 }
     ],
     ch: [
-      { icon: '⚽', text: 'Haz 10 toques con un calcetín hecho bola sin que caiga', points: 10 },
-      { icon: '🎯', text: 'Encesta 3 calcetines en un cubo desde 2 pasos', points: 10 },
-      { icon: '🏓', text: 'Mantén un globo en el aire con 15 toques', points: 10 },
-      { icon: '🤝', text: 'Pasa una pelota 10 veces con alguien sin que caiga', points: 15 },
-      { icon: '🥅', text: 'Marca 5 goles en una portería de sillas con pelota de papel', points: 15 },
-      { icon: '🧺', text: 'Recoge 10 juguetes y llévalos al cesto en 1 minuto', points: 15 },
-      { icon: '🐍', text: 'Salta 5 cojines seguidos sin tocarlos', points: 15 },
+      { icon: '⚽', text: 'Haz 10 toques con un calcetín hecho bola sin que caiga', points: 5 },
+      { icon: '🎯', text: 'Encesta 3 calcetines en un cubo desde 2 pasos', points: 5 },
+      { icon: '🏓', text: 'Mantén un globo en el aire con 15 toques', points: 5 },
+      { icon: '🤝', text: 'Pasa una pelota 10 veces con alguien sin que caiga', points: 5 },
+      { icon: '🥅', text: 'Marca 5 goles en una portería de sillas con pelota de papel', points: 5 },
+      { icon: '🧺', text: 'Recoge 10 juguetes y llévalos al cesto en 1 minuto', points: 5 },
+      { icon: '🐍', text: 'Salta 5 cojines seguidos sin tocarlos', points: 5 },
       { icon: '🧊', text: 'Quédate como una estatua 30 segundos sin moverte', points: 5 },
-      { icon: '🎈', text: 'No dejes que el globo toque el suelo durante 30 segundos', points: 10 },
-      { icon: '🏃', text: 'Corre en el sitio 20 segundos y luego camina 20', points: 10 },
-      { icon: '👟', text: 'Apila 4 pares de zapatillas sin que se caigan', points: 10 },
-      { icon: '🎤', text: 'Canta el estribillo de tu canción favorita con gestos', points: 10 },
-      { icon: '🤝', text: 'Ayuda a tu hermano en algo sin que te lo pidan', points: 20 }
+      { icon: '🎈', text: 'No dejes que el globo toque el suelo durante 30 segundos', points: 5 },
+      { icon: '🏃', text: 'Corre en el sitio 20 segundos y luego camina 20', points: 5 },
+      { icon: '👟', text: 'Apila 4 pares de zapatillas sin que se caigan', points: 5 },
+      { icon: '🎤', text: 'Canta el estribillo de tu canción favorita con gestos', points: 5 },
+      { icon: '🤝', text: 'Ayuda a tu hermano en algo sin que te lo pidan', points: 5 }
     ],
     hp: [
-      { icon: '🔤', text: 'Di 5 animales en inglés', points: 10 },
-      { icon: '🔢', text: 'Cuenta de 2 en 2 hasta 20', points: 10 },
-      { icon: '📖', text: 'Lee 5 páginas de un libro en voz alta', points: 15 },
-      { icon: '🧠', text: 'Memoriza 4 objetos; que quiten uno y adivina cuál falta', points: 15 },
-      { icon: '✍️', text: 'Escribe una palabra nueva y su significado', points: 10 },
-      { icon: '🧩', text: 'Acertijo: tiene agujas y no cose. ¿Qué es? (pista: da la hora)', points: 10 },
-      { icon: '🎨', text: 'Dibuja tu castillo mágico y ponle nombre', points: 10 },
-      { icon: '🗣️', text: 'Cuenta lo mejor de tu día en 3 frases', points: 10 },
-      { icon: '🧪', text: 'Poción: mezcla agua con una gota de colorante y explica qué pasa', points: 15 },
-      { icon: '🔍', text: 'Encuentra 5 cosas que empiecen por la letra M', points: 10 },
-      { icon: '🤫', text: 'Haz una buena acción secreta y cuéntala después', points: 20 },
-      { icon: '📅', text: 'Di los días de la semana al revés', points: 15 },
-      { icon: '🧮', text: 'Resuelve 3+4, 5+2 y 6+6 en voz alta', points: 10 },
-      { icon: '🌱', text: 'Ordena tu escritorio con magia en 2 minutos', points: 10 },
-      { icon: '🧠', text: 'Repite 4 colores en el mismo orden que alguien diga', points: 10 }
+      { icon: '🔤', text: 'Di 5 animales en inglés', points: 5 },
+      { icon: '🔢', text: 'Cuenta de 2 en 2 hasta 20', points: 5 },
+      { icon: '📖', text: 'Lee 5 páginas de un libro en voz alta', points: 5 },
+      { icon: '🧠', text: 'Memoriza 4 objetos; que quiten uno y adivina cuál falta', points: 5 },
+      { icon: '✍️', text: 'Escribe una palabra nueva y su significado', points: 5 },
+      { icon: '🧩', text: 'Acertijo: tiene agujas y no cose. ¿Qué es? (pista: da la hora)', points: 5 },
+      { icon: '🎨', text: 'Dibuja tu castillo mágico y ponle nombre', points: 5 },
+      { icon: '🗣️', text: 'Cuenta lo mejor de tu día en 3 frases', points: 5 },
+      { icon: '🧪', text: 'Poción: mezcla agua con una gota de colorante y explica qué pasa', points: 5 },
+      { icon: '🔍', text: 'Encuentra 5 cosas que empiecen por la letra M', points: 5 },
+      { icon: '🤫', text: 'Haz una buena acción secreta y cuéntala después', points: 5 },
+      { icon: '📅', text: 'Di los días de la semana al revés', points: 5 },
+      { icon: '🧮', text: 'Resuelve 3+4, 5+2 y 6+6 en voz alta', points: 5 },
+      { icon: '🌱', text: 'Ordena tu escritorio con magia en 2 minutos', points: 5 },
+      { icon: '🧠', text: 'Repite 4 colores en el mismo orden que alguien diga', points: 5 }
     ]
   };
 
@@ -2352,7 +2404,7 @@ textarea.input {
 
   function defaultState() {
     return {
-      version: 3,
+      version: 4,
       activeKid: 'enrique',
       tab: 'missions',
       settings: { sound: true, haptics: true, pin: '' },
@@ -2394,6 +2446,11 @@ textarea.input {
       s.challenges = base.challenges;
     }
     s.log = Array.isArray(raw.log) ? raw.log.slice(0, 400) : [];
+    // Migración v4: todos los retos pasan a valer 5 puntos (una sola vez)
+    if ((Number(raw.version) || 0) < 4) {
+      s.challenges.forEach(c => { c.points = 5; });
+    }
+    s.version = 4;
     if (!s.kids[s.activeKid]) s.activeKid = 'enrique';
     if (!TABS.some(t => t.id === s.tab)) s.tab = 'missions';
     return s;
@@ -2419,6 +2476,7 @@ textarea.input {
   }
 
   state = loadState();
+  save();
 
   function currentKid() {
     return state.kids[state.activeKid] || state.kids.enrique;
@@ -2479,7 +2537,7 @@ textarea.input {
     kid.coins -= appliedCoins;
     pushLog(kidId, kind, title, -points, { dXp: -appliedXp, dCoins: -appliedCoins });
     const after = levelInfo(kid.xp).level;
-    return { levelDown: after < before, level: after };
+    return { levelDown: after < before, level: after, appliedXp, appliedCoins };
   }
 
   function handleAwardOutcome(kidId, res) {
@@ -2817,7 +2875,7 @@ textarea.input {
     const icon = ch ? ch.icon : '🎯';
     const emojiRow = CHALLENGE_EMOJIS.map(e => '<button type="button" class="emoji-btn ' + (e === icon ? 'selected' : '') + '" data-pick="' + e + '">' + e + '</button>').join('');
     const realmSeg = Object.keys(REALMS).map(id => '<label class="seg-option"><input type="radio" name="chRealm" value="' + id + '" ' + (id === realmId ? 'checked' : '') + '><span>' + REALMS[id].emoji + ' ' + REALMS[id].name + '</span></label>').join('');
-    openModal('<h2>' + (editing ? 'Editar reto' : 'Nuevo reto') + '</h2><p class="modal-sub">Elige reino, icono, texto y puntos.</p><div class="field"><label>Reino</label><div class="seg">' + realmSeg + '</div></div><div class="field"><label>Icono</label><input class="input input-sm" id="chIcon" maxlength="4" value="' + esc(icon) + '"><div class="emoji-row" style="margin-top:8px">' + emojiRow + '</div></div><div class="field"><label>Reto</label><input class="input" id="chText" maxlength="80" value="' + (ch ? esc(ch.text) : '') + '" placeholder="Haz 10 sentadillas"></div><div class="field"><label>Puntos</label><input class="input input-sm" id="chPoints" type="number" min="1" max="100" value="' + (ch ? ch.points : 10) + '"></div><div class="modal-actions"><button type="button" class="btn btn-block" id="chSave">' + (editing ? 'Guardar cambios' : 'Añadir reto') + '</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cancelar</button></div>', { wide: true });
+    openModal('<h2>' + (editing ? 'Editar reto' : 'Nuevo reto') + '</h2><p class="modal-sub">Elige reino, icono, texto y puntos.</p><div class="field"><label>Reino</label><div class="seg">' + realmSeg + '</div></div><div class="field"><label>Icono</label><input class="input input-sm" id="chIcon" maxlength="4" value="' + esc(icon) + '"><div class="emoji-row" style="margin-top:8px">' + emojiRow + '</div></div><div class="field"><label>Reto</label><input class="input" id="chText" maxlength="80" value="' + (ch ? esc(ch.text) : '') + '" placeholder="Haz 10 sentadillas"></div><div class="field"><label>Puntos</label><input class="input input-sm" id="chPoints" type="number" min="1" max="100" value="' + (ch ? ch.points : 5) + '"></div><div class="modal-actions"><button type="button" class="btn btn-block" id="chSave">' + (editing ? 'Guardar cambios' : 'Añadir reto') + '</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cancelar</button></div>', { wide: true });
 
     const root = document.getElementById('modalRoot');
     const iconInput = document.getElementById('chIcon');
@@ -2834,7 +2892,7 @@ textarea.input {
       saveBtn.addEventListener('click', () => {
         const text = (document.getElementById('chText').value || '').trim();
         const pickedRealm = (root.querySelector('input[name="chRealm"]:checked') || {}).value || 'db';
-        const points = Math.max(1, Math.min(100, Number(document.getElementById('chPoints').value) || 10));
+        const points = Math.max(1, Math.min(100, Number(document.getElementById('chPoints').value) || 5));
         const ic = (iconInput.value || '🎯').trim().slice(0, 4) || '🎯';
         if (!text) { toast('Escribe el texto del reto', '⚠️'); return; }
         if (editing) {
@@ -2929,6 +2987,54 @@ textarea.input {
     input.click();
   }
 
+  // ==================== CASTIGO ====================
+  const PUNISH_REASONS = ['No ha respetado', 'Ha pegado', 'Ha mentido', 'No ha obedecido', 'Ha roto algo', 'Ha contestado mal'];
+
+  function openPunishModal() {
+    const kid = currentKid();
+    const chips = PUNISH_REASONS.map(r => '<button type="button" class="reason-chip" data-reason="' + r + '">' + r + '</button>').join('');
+    openModal(
+      '<h2>⚠️ Castigo</h2>' +
+      '<p class="modal-sub">Resta <b>20 puntos</b> a <b>' + esc(kid.name) + '</b> por un comportamiento. Explica qué ha pasado: quedará guardado en el historial.</p>' +
+      '<div class="field"><label>¿Qué ha hecho mal?</label><textarea class="input" id="punishReason" rows="3" maxlength="120" placeholder="Ej.: Ha pegado a su hermano después de avisarle"></textarea><div class="reason-chips">' + chips + '</div></div>' +
+      '<div class="punish-box"><span>Se restarán <b>−20 puntos</b></span><small>Ahora tiene ' + kid.coins + ' puntos. La cuenta nunca baja de 0.</small></div>' +
+      '<div class="modal-actions"><button type="button" class="btn btn-danger btn-block" id="punishConfirm">Aplicar castigo −20</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cancelar</button></div>'
+    );
+
+    const root = document.getElementById('modalRoot');
+    const input = document.getElementById('punishReason');
+    if (!root || !input) return;
+
+    root.querySelectorAll('.reason-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        input.value = chip.dataset.reason;
+        root.querySelectorAll('.reason-chip').forEach(c => c.classList.toggle('on', c === chip));
+        input.focus({ preventScroll: true });
+      });
+    });
+
+    const confirmBtn = document.getElementById('punishConfirm');
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', () => {
+        const reason = (input.value || '').trim();
+        if (reason.length < 3) {
+          toast('Escribe qué ha pasado para aplicar el castigo', '⚠️');
+          input.focus({ preventScroll: true });
+          return;
+        }
+        const res = penalize(kid.id, 20, 'punishment', reason);
+        save();
+        closeModal();
+        renderAll();
+        sound.error();
+        haptic(90);
+        const lost = res && typeof res.appliedCoins === 'number' ? res.appliedCoins : 20;
+        toast('−' + lost + ' puntos · ' + reason, '⚠️');
+      });
+    }
+    setTimeout(() => input.focus({ preventScroll: true }), 220);
+  }
+
 
   // ==================== RENDER ====================
   const dateFmt = new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -3018,7 +3124,7 @@ textarea.input {
     } else {
       grid = '<div class="task-grid">' + list.map(t => taskCard(t, editMode)).join('') + '</div>';
     }
-    return '<div class="section-head"><div><h2>' + (editMode ? 'Editar misiones' : 'Misiones de hoy') + '</h2><p>' + (editMode ? list.length + ' misiones configuradas' : doneCount + ' de ' + listToday.length + ' completadas · ' + todayLabel()) + '</p></div><div class="head-actions"><button type="button" class="pill-btn ' + (editMode ? 'on' : '') + '" data-action="toggleEdit">' + (editMode ? '✓ Listo' : '✏️ Editar') + '</button></div></div>' + (editMode ? '' : '<div class="progress-line"><i style="width:' + pct + '%"></i></div>') + grid + '<button type="button" class="add-task" data-action="addTask">➕ ' + (editMode ? 'Añadir misión' : 'Nueva misión') + '</button>' + (editMode ? '<div class="edit-hint">Toca ✏️ para cambiar una misión o 🗑️ para borrarla. Los puntos y los días se pueden ajustar en cada misión. Cuando termines, pulsa <b>✓ Listo</b>.</div>' : '');
+    return '<div class="section-head"><div><h2>' + (editMode ? 'Editar misiones' : 'Misiones de hoy') + '</h2><p>' + (editMode ? list.length + ' misiones configuradas' : doneCount + ' de ' + listToday.length + ' completadas · ' + todayLabel()) + '</p></div><div class="head-actions"><button type="button" class="pill-btn danger" data-action="punish" aria-label="Aplicar castigo de 20 puntos">⚠️ Castigo</button><button type="button" class="pill-btn ' + (editMode ? 'on' : '') + '" data-action="toggleEdit">' + (editMode ? '✓ Listo' : '✏️ Editar') + '</button></div></div>' + (editMode ? '' : '<div class="progress-line"><i style="width:' + pct + '%"></i></div>') + grid + '<button type="button" class="add-task" data-action="addTask">➕ ' + (editMode ? 'Añadir misión' : 'Nueva misión') + '</button>' + (editMode ? '<div class="edit-hint">Toca ✏️ para cambiar una misión o 🗑️ para borrarla. Los puntos y los días se pueden ajustar en cada misión. Cuando termines, pulsa <b>✓ Listo</b>.</div>' : '');
   }
 
   function wheelMarkup(list) {
@@ -3064,7 +3170,7 @@ textarea.input {
   }
 
   function fmtLogDate(ts) { const d = new Date(ts); const k = dayKey(d); if (k === today()) return 'Hoy'; if (k === yesterdayKey()) return 'Ayer'; return d.getDate() + '/' + (d.getMonth() + 1); }
-  const KIND_ICON = { complete: '✅', challenge: '🎡', bonus: '🏆', reward: '🎁', penalty: '➖' };
+  const KIND_ICON = { complete: '✅', challenge: '🎡', bonus: '🏆', reward: '🎁', penalty: '➖', punishment: '⚠️' };
 
   function viewProgress() {
     const kid = currentKid();
@@ -3383,6 +3489,14 @@ textarea.input {
       if (action === 'openSettings') {
         ev.preventDefault();
         openSettings();
+        return;
+      }
+
+      // --- Castigo de 20 puntos (solo adultos) ---
+      if (action === 'punish') {
+        ev.preventDefault();
+        if (state.settings.pin) requirePin(openPunishModal);
+        else openPunishModal();
         return;
       }
 
