@@ -1879,6 +1879,175 @@ textarea.input {
   z-index: 80;
 }
 
+/* ---------- Penalización ---------- */
+
+.task-side {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.penalty-btn {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1;
+  color: #fecdd3;
+  background: rgba(251, 113, 133, 0.14);
+  border: 1.5px solid rgba(251, 113, 133, 0.32);
+  transition: transform 0.12s, background 0.2s;
+}
+
+.penalty-btn:active { transform: scale(0.88); background: rgba(251, 113, 133, 0.28); }
+.penalty-btn.used { opacity: 0.4; }
+
+.task.failed {
+  border-left-color: var(--bad);
+  background: linear-gradient(150deg, rgba(251, 113, 133, 0.13), rgba(255, 255, 255, 0.03));
+}
+
+.day-tag.lost {
+  color: #fecdd3;
+  background: rgba(251, 113, 133, 0.16);
+  border-color: rgba(251, 113, 133, 0.32);
+}
+
+/* ---------- Avatares con foto ---------- */
+
+.avatar-img,
+.chip-avatar img,
+.avatar-choice img,
+.avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-preview {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #141831;
+  border: 2.5px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ---------- Ajustes ---------- */
+
+.kid-settings {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--stroke);
+  margin-bottom: 10px;
+}
+
+.kid-settings:last-child { margin-bottom: 0; }
+
+.kid-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.avatar-upload {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px dashed rgba(255, 255, 255, 0.24);
+  color: var(--muted);
+}
+
+.avatar-upload span { font-size: 9px; font-weight: 800; }
+.avatar-upload:active { transform: scale(0.93); }
+.avatar-upload.remove { border-color: rgba(251, 113, 133, 0.4); color: #fecdd3; }
+
+.avatar-choices { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.avatar-choices::-webkit-scrollbar { display: none; }
+.avatar-choices .avatar-choice { width: 52px; height: 52px; flex: 0 0 52px; }
+
+.hidden-file { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.reset-list { display: flex; flex-direction: column; gap: 8px; }
+
+/* ---------- Resultado de la ruleta ---------- */
+
+.challenge-card { text-align: center; }
+
+.challenge-card:not(:empty) {
+  margin-top: 18px;
+  padding: 20px 16px 16px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--stroke);
+  animation: modal-in 0.35s cubic-bezier(0.2, 1.1, 0.3, 1);
+}
+
+.challenge-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* ---------- Gestor de retos ---------- */
+
+.challenge-list { display: flex; flex-direction: column; gap: 7px; }
+
+.challenge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 9px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cr-ico {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.cr-text { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 700; line-height: 1.3; }
+
+.cr-pts {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 900;
+  color: #ffd76a;
+  background: rgba(255, 176, 32, 0.12);
+  border-radius: 8px;
+  padding: 3px 7px;
+}
+
+.challenge-row .mini-btn { width: 32px; height: 32px; font-size: 14px; }
+
 /* Barra de scroll */
 
 ::-webkit-scrollbar { width: 0; height: 0; }
@@ -2096,6 +2265,14 @@ textarea.input {
     ]
   };
 
+  // Lista plana y editable de retos (se guarda en el estado)
+  const DEFAULT_CHALLENGES = Object.keys(CHALLENGES).reduce((acc, realm) => {
+    CHALLENGES[realm].forEach((c, i) => {
+      acc.push({ id: 'ch-' + realm + '-' + i, realm, icon: c.icon, text: c.text, points: c.points });
+    });
+    return acc;
+  }, []);
+
   const TASK_EMOJIS = [
     '⚡', '📚', '🦷', '🛏️', '🧸', '🥋', '🧹', '🌙', '🍎', '💧', '🏃', '⚽',
     '🪄', '📖', '🎨', '🎹', '🧺', '🐶', '🎯', '🏆', '🧠', '🎒', '🧴', '🍽️',
@@ -2121,7 +2298,21 @@ textarea.input {
   function yesterdayKey() { const d = new Date(); d.setDate(d.getDate() - 1); return dayKey(d); }
   function last7() { const out = []; for (let i = 6; i >= 0; i--) { const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - i); out.push({ key: dayKey(d), date: d }); } return out; }
   function shuffle(arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-  function sampleChallenges() { const pools = { db: shuffle(CHALLENGES.db), ch: shuffle(CHALLENGES.ch), hp: shuffle(CHALLENGES.hp) }; const picked = [ ...pools.db.slice(0, 3).map(c => ({ ...c, realm: 'db', id: uid('ret') })), ...pools.ch.slice(0, 3).map(c => ({ ...c, realm: 'ch', id: uid('ret') })), ...pools.hp.slice(0, 2).map(c => ({ ...c, realm: 'hp', id: uid('ret') })) ]; return shuffle(picked); }
+  function sampleChallenges() {
+    const want = { db: 3, ch: 3, hp: 2 };
+    const byRealm = realm => shuffle(state.challenges.filter(c => c.realm === realm));
+    let picked = [];
+    Object.keys(want).forEach(realm => { picked = picked.concat(byRealm(realm).slice(0, want[realm])); });
+    // Rellenar si algún reino se ha quedado sin retos
+    if (picked.length < 8 && state.challenges.length) {
+      const rest = shuffle(state.challenges.filter(c => !picked.includes(c)));
+      picked = picked.concat(rest.slice(0, 8 - picked.length));
+    }
+    // Si hay menos de 8 retos en total, repetimos algunos para completar la ruleta
+    let guard = 0;
+    while (picked.length && picked.length < 8 && guard < 40) { picked.push({ ...picked[guard % picked.length] }); guard++; }
+    return shuffle(picked).map(c => ({ ...c }));
+  }
   function levelInfo(xp) { let idx = 0; for (let i = 0; i < LEVELS.length; i++) { if (xp >= LEVELS[i].xp) idx = i; } const current = LEVELS[idx]; const next = LEVELS[idx + 1] || null; const pct = next ? Math.max(0, Math.min(100, Math.round(((xp - current.xp) / (next.xp - current.xp)) * 100))) : 100; return { level: idx + 1, name: current.name, current: xp, next: next ? next.xp : null, pct }; }
 
   // ==================== ESTADO ====================
@@ -2129,17 +2320,19 @@ textarea.input {
   let editMode = false;
   let justDone = null;
   let activeChallenge = null;
+  let challengeClaimed = false;
   let spinning = false;
   let wheelPicks = [];
+  let wheelAngle = 0;
   const completing = new Set();
 
   function makeKid(id, name, avatar) {
-    return { id, name, avatar, xp: 0, coins: 0, streak: 0, bestStreak: 0, lastActiveDate: null, perfectDate: null, badges: [], stats: { total: 0, challenges: 0, perfectDays: 0, coinsEarned: 0, rewardsRedeemed: 0 } };
+    return { id, name, avatar, avatarImage: null, xp: 0, coins: 0, streak: 0, bestStreak: 0, lastActiveDate: null, perfectDate: null, badges: [], stats: { total: 0, challenges: 0, perfectDays: 0, coinsEarned: 0, rewardsRedeemed: 0 } };
   }
 
   function defaultState() {
     return {
-      version: 2,
+      version: 3,
       activeKid: 'enrique',
       tab: 'missions',
       settings: { sound: true, haptics: true, pin: '' },
@@ -2149,6 +2342,7 @@ textarea.input {
       },
       tasks: DEFAULT_TASKS.map(t => ({ ...t, days: t.days.slice() })),
       rewards: DEFAULT_REWARDS.map(r => ({ ...r })),
+      challenges: DEFAULT_CHALLENGES.map(c => ({ ...c })),
       log: []
     };
   }
@@ -2162,10 +2356,10 @@ textarea.input {
     Object.keys(base.kids).forEach(id => {
       const k = (raw.kids && raw.kids[id]) || {};
       const seed = base.kids[id];
-      s.kids[id] = Object.assign({}, seed, k, { id, stats: Object.assign({}, seed.stats, k.stats || {}), badges: Array.isArray(k.badges) ? k.badges : [] });
+      s.kids[id] = Object.assign({}, seed, k, { id, avatarImage: k.avatarImage || null, stats: Object.assign({}, seed.stats, k.stats || {}), badges: Array.isArray(k.badges) ? k.badges : [] });
     });
     if (Array.isArray(raw.tasks)) {
-      s.tasks = raw.tasks.filter(t => t && t.id && s.kids[t.kid]).map(t => ({ ...t, title: String(t.title || 'Misión'), icon: t.icon || '⚡', realm: REALMS[t.realm] ? t.realm : 'db', points: Math.max(1, Number(t.points) || 5), days: Array.isArray(t.days) && t.days.length ? t.days.map(Number) : [0, 1, 2, 3, 4, 5, 6], doneDate: t.doneDate || null }));
+      s.tasks = raw.tasks.filter(t => t && t.id && s.kids[t.kid]).map(t => ({ ...t, title: String(t.title || 'Misión'), icon: t.icon || '⚡', realm: REALMS[t.realm] ? t.realm : 'db', points: Math.max(1, Number(t.points) || 5), days: Array.isArray(t.days) && t.days.length ? t.days.map(Number) : [0, 1, 2, 3, 4, 5, 6], doneDate: t.doneDate || null, failedDate: t.failedDate || null }));
     } else {
       s.tasks = base.tasks;
     }
@@ -2173,6 +2367,11 @@ textarea.input {
       s.rewards = raw.rewards.filter(r => r && r.id).map(r => ({ id: r.id, title: String(r.title || 'Premio'), icon: r.icon || '🎁', cost: Math.max(1, Number(r.cost) || 50) }));
     } else {
       s.rewards = base.rewards;
+    }
+    if (Array.isArray(raw.challenges) && raw.challenges.length) {
+      s.challenges = raw.challenges.filter(c => c && c.text).map(c => ({ id: c.id || uid('ch'), realm: REALMS[c.realm] ? c.realm : 'db', icon: c.icon || '🎯', text: String(c.text), points: Math.max(1, Number(c.points) || 10) }));
+    } else {
+      s.challenges = base.challenges;
     }
     s.log = Array.isArray(raw.log) ? raw.log.slice(0, 400) : [];
     if (!s.kids[s.activeKid]) s.activeKid = 'enrique';
@@ -2211,8 +2410,8 @@ textarea.input {
   }
 
   // ==================== PUNTOS, RACHAS Y LOGROS ====================
-  function pushLog(kidId, kind, title, points) {
-    state.log.unshift({ id: uid('log'), ts: Date.now(), day: today(), kidId, kind, title, points });
+  function pushLog(kidId, kind, title, points, meta) {
+    state.log.unshift(Object.assign({ id: uid('log'), ts: Date.now(), day: today(), kidId, kind, title, points }, meta || {}));
     if (state.log.length > 400) state.log.length = 400;
   }
 
@@ -2248,6 +2447,19 @@ textarea.input {
     const after = levelInfo(kid.xp).level;
     const newBadges = syncBadges(kidId);
     return { levelUp: after > before, level: after, newBadges };
+  }
+
+  // Resta puntos (nunca deja el saldo en negativo)
+  function penalize(kidId, points, kind, title) {
+    const kid = state.kids[kidId];
+    const before = levelInfo(kid.xp).level;
+    const appliedXp = Math.min(points, Math.max(0, kid.xp));
+    const appliedCoins = Math.min(points, Math.max(0, kid.coins));
+    kid.xp -= appliedXp;
+    kid.coins -= appliedCoins;
+    pushLog(kidId, kind, title, -points, { dXp: -appliedXp, dCoins: -appliedCoins });
+    const after = levelInfo(kid.xp).level;
+    return { levelDown: after < before, level: after };
   }
 
   function handleAwardOutcome(kidId, res) {
@@ -2433,7 +2645,6 @@ textarea.input {
     const root = document.getElementById('modalRoot');
     if (root) root.innerHTML = '';
     document.body.classList.remove('modal-open');
-    activeChallenge = null;
   }
 
   function confirmAction(title, message, confirmText, onConfirm, danger) {
@@ -2458,7 +2669,7 @@ textarea.input {
   function showLevelUp(kidId, level) {
     const kid = state.kids[kidId];
     const lvl = LEVELS[level - 1] || LEVELS[LEVELS.length - 1];
-    openModal('<div class="levelup-card"><div class="levelup-avatar"><div class="avatar-ring"></div><div class="avatar">' + avatarSVG(kid.avatar) + '</div><span class="level-badge">Nv ' + level + '</span></div><div class="levelup-kicker">¡Subida de nivel!</div><div class="levelup-title">NIVEL ' + level + '</div><div class="levelup-name">' + esc(lvl.name) + '</div><p class="levelup-sub">' + esc(kid.name) + ' sigue brillando en el multiverso ✨</p><div class="modal-actions"><button type="button" class="btn btn-block" data-action="closeModal">¡Seguir!</button></div></div>');
+    openModal('<div class="levelup-card"><div class="levelup-avatar"><div class="avatar-ring"></div><div class="avatar">' + avatarFor(kid) + '</div><span class="level-badge">Nv ' + level + '</span></div><div class="levelup-kicker">¡Subida de nivel!</div><div class="levelup-title">NIVEL ' + level + '</div><div class="levelup-name">' + esc(lvl.name) + '</div><p class="levelup-sub">' + esc(kid.name) + ' sigue brillando en el multiverso ✨</p><div class="modal-actions"><button type="button" class="btn btn-block" data-action="closeModal">¡Seguir!</button></div></div>');
     sound.levelUp();
     confettiRain(90);
   }
@@ -2473,6 +2684,231 @@ textarea.input {
   function avatarSVG(key) {
     return AVATARS[key] || AVATARS.saiyan;
   }
+
+  // Avatar del niño: foto personalizada si existe, si no el avatar integrado
+  function avatarFor(kid) {
+    if (kid && kid.avatarImage) {
+      return '<img class="avatar-img" src="' + kid.avatarImage + '" alt="Foto de ' + esc(kid.name) + '">';
+    }
+    return avatarSVG(kid && kid.avatar);
+  }
+
+  // Redimensiona y recorta una imagen al cuadrado indicado
+  function resizeImage(file, size, cb) {
+    try {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const side = Math.min(img.width, img.height);
+            const sx = (img.width - side) / 2;
+            const sy = (img.height - side) / 2;
+            ctx.drawImage(img, sx, sy, side, side, 0, 0, size, size);
+            cb(canvas.toDataURL('image/jpeg', 0.86));
+          } catch (err) { cb(null); }
+        };
+        img.onerror = () => cb(null);
+        img.src = reader.result;
+      };
+      reader.onerror = () => cb(null);
+      reader.readAsDataURL(file);
+    } catch (err) { cb(null); }
+  }
+
+  // ==================== REINICIOS ====================
+  function resetTodayProgress() {
+    Object.values(state.kids).forEach(kid => {
+      const logs = state.log.filter(l => l.kidId === kid.id && l.day === today());
+      let sumXp = 0;
+      let sumCoins = 0;
+      logs.forEach(l => {
+        sumXp += typeof l.dXp === 'number' ? l.dXp : (l.kind === 'reward' ? 0 : l.points);
+        sumCoins += typeof l.dCoins === 'number' ? l.dCoins : l.points;
+      });
+      kid.xp = Math.max(0, kid.xp - sumXp);
+      kid.coins = Math.max(0, kid.coins - sumCoins);
+      kid.stats.total = Math.max(0, kid.stats.total - logs.filter(l => l.kind === 'complete').length);
+      kid.stats.challenges = Math.max(0, kid.stats.challenges - logs.filter(l => l.kind === 'challenge' || l.kind === 'challenge2').length);
+      kid.stats.perfectDays = Math.max(0, kid.stats.perfectDays - logs.filter(l => l.kind === 'bonus').length);
+      if (kid.perfectDate === today()) kid.perfectDate = null;
+    });
+    state.log = state.log.filter(l => l.day !== today());
+    state.tasks.forEach(t => {
+      if (t.doneDate === today()) t.doneDate = null;
+      if (t.failedDate === today()) t.failedDate = null;
+    });
+    save();
+    renderAll();
+  }
+
+  function resetProgressAll() {
+    Object.values(state.kids).forEach(kid => {
+      kid.xp = 0;
+      kid.coins = 0;
+      kid.streak = 0;
+      kid.bestStreak = 0;
+      kid.lastActiveDate = null;
+      kid.perfectDate = null;
+      kid.badges = [];
+      kid.stats = { total: 0, challenges: 0, perfectDays: 0, coinsEarned: 0, rewardsRedeemed: 0 };
+    });
+    state.tasks.forEach(t => { t.doneDate = null; t.failedDate = null; });
+    state.log = [];
+    save();
+    renderAll();
+  }
+
+  function resetEverything() {
+    state = defaultState();
+    wheelPicks = [];
+    wheelAngle = 0;
+    activeChallenge = null;
+    challengeClaimed = false;
+    save();
+    renderAll();
+  }
+
+  // ==================== GESTIÓN DE RETOS ====================
+  const CHALLENGE_EMOJIS = ['🎯', '🔥', '⚡', '💪', '🏃', '⚽', '🪄', '📖', '🧠', '🤝', '💧', '🎨', '🧹', '🤸', '🏆', '🌀', '🧩', '🏰'];
+
+  function challengeManagerHTML() {
+    return Object.keys(REALMS).map(realm => {
+      const r = REALMS[realm];
+      const list = state.challenges.filter(c => c.realm === realm);
+      const rows = list.length ? list.map(c =>
+        '<div class="challenge-row"><span class="cr-ico">' + c.icon + '</span><span class="cr-text">' + esc(c.text) + '</span><span class="cr-pts">' + c.points + '</span><button type="button" class="mini-btn" data-action="editChallenge" data-id="' + c.id + '" aria-label="Editar reto">✏️</button><button type="button" class="mini-btn danger" data-action="deleteChallenge" data-id="' + c.id + '" aria-label="Borrar reto">🗑️</button></div>'
+      ).join('') : '<p class="sw-sub">Sin retos en este reino.</p>';
+      return '<div class="settings-section"><h3 style="color:' + r.color + '">' + r.emoji + ' ' + r.name + '</h3><div class="challenge-list">' + rows + '</div><button type="button" class="btn btn-ghost btn-sm btn-block" style="margin-top:9px" data-action="addChallenge" data-realm="' + realm + '">➕ Añadir reto de ' + r.name + '</button></div>';
+    }).join('');
+  }
+
+  function openChallengeManager() {
+    openModal('<h2>Retos de la ruleta</h2><p class="modal-sub">Añade, edita o borra los retos. La ruleta se actualiza al instante.</p>' + challengeManagerHTML() + '<div class="modal-actions"><button type="button" class="btn btn-block" data-action="openSettings">← Volver a ajustes</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cerrar</button></div>', { wide: true });
+  }
+
+  function openChallengeForm(ch, realm) {
+    const editing = !!ch;
+    const realmId = ch ? ch.realm : (realm || 'db');
+    const icon = ch ? ch.icon : '🎯';
+    const emojiRow = CHALLENGE_EMOJIS.map(e => '<button type="button" class="emoji-btn ' + (e === icon ? 'selected' : '') + '" data-pick="' + e + '">' + e + '</button>').join('');
+    const realmSeg = Object.keys(REALMS).map(id => '<label class="seg-option"><input type="radio" name="chRealm" value="' + id + '" ' + (id === realmId ? 'checked' : '') + '><span>' + REALMS[id].emoji + ' ' + REALMS[id].name + '</span></label>').join('');
+    openModal('<h2>' + (editing ? 'Editar reto' : 'Nuevo reto') + '</h2><p class="modal-sub">Elige reino, icono, texto y puntos.</p><div class="field"><label>Reino</label><div class="seg">' + realmSeg + '</div></div><div class="field"><label>Icono</label><input class="input input-sm" id="chIcon" maxlength="4" value="' + esc(icon) + '"><div class="emoji-row" style="margin-top:8px">' + emojiRow + '</div></div><div class="field"><label>Reto</label><input class="input" id="chText" maxlength="80" value="' + (ch ? esc(ch.text) : '') + '" placeholder="Haz 10 sentadillas"></div><div class="field"><label>Puntos</label><input class="input input-sm" id="chPoints" type="number" min="1" max="100" value="' + (ch ? ch.points : 10) + '"></div><div class="modal-actions"><button type="button" class="btn btn-block" id="chSave">' + (editing ? 'Guardar cambios' : 'Añadir reto') + '</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cancelar</button></div>', { wide: true });
+
+    const root = document.getElementById('modalRoot');
+    const iconInput = document.getElementById('chIcon');
+    if (root && iconInput) {
+      root.querySelectorAll('[data-pick]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          iconInput.value = btn.dataset.pick;
+          root.querySelectorAll('[data-pick]').forEach(b => b.classList.toggle('selected', b === btn));
+        });
+      });
+    }
+    const saveBtn = document.getElementById('chSave');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const text = (document.getElementById('chText').value || '').trim();
+        const pickedRealm = (root.querySelector('input[name="chRealm"]:checked') || {}).value || 'db';
+        const points = Math.max(1, Math.min(100, Number(document.getElementById('chPoints').value) || 10));
+        const ic = (iconInput.value || '🎯').trim().slice(0, 4) || '🎯';
+        if (!text) { toast('Escribe el texto del reto', '⚠️'); return; }
+        if (editing) {
+          ch.text = text;
+          ch.icon = ic;
+          ch.points = points;
+          ch.realm = REALMS[pickedRealm] ? pickedRealm : 'db';
+        } else {
+          state.challenges.push({ id: uid('ch'), realm: REALMS[pickedRealm] ? pickedRealm : 'db', icon: ic, text, points });
+        }
+        wheelPicks = [];
+        save();
+        renderAll();
+        openChallengeManager();
+        toast(editing ? 'Reto actualizado' : 'Reto añadido', ic);
+      });
+    }
+  }
+
+  // ==================== AJUSTES ====================
+  function kidSettingsHTML(k) {
+    const choices = Object.keys(AVATARS).map(key =>
+      '<button type="button" class="avatar-choice ' + (!k.avatarImage && k.avatar === key ? 'selected' : '') + '" data-action="pickAvatar" data-kid="' + k.id + '" data-avatar="' + key + '" aria-label="Avatar ' + key + '">' + AVATARS[key] + '</button>'
+    ).join('');
+    return '<div class="kid-settings"><div class="kid-avatar-row"><div class="avatar-preview">' + avatarFor(k) + '</div><div style="flex:1;min-width:0"><label class="label" style="margin-bottom:5px">Nombre</label><input class="input input-sm kid-name-input" data-kid="' + k.id + '" maxlength="14" value="' + esc(k.name) + '" aria-label="Nombre de ' + esc(k.name) + '"></div></div><div class="avatar-choices">' + choices + '<button type="button" class="avatar-upload" data-action="uploadAvatar" data-kid="' + k.id + '">📷<span>Foto</span></button>' + (k.avatarImage ? '<button type="button" class="avatar-upload remove" data-action="clearAvatar" data-kid="' + k.id + '">✕<span>Quitar</span></button>' : '') + '</div></div>';
+  }
+
+  function openSettings() {
+    openModal(
+      '<h2>Ajustes</h2><p class="modal-sub">Personaliza a los jugadores, la ruleta y los contadores.</p>' +
+      '<div class="settings-section"><h3>Jugadores</h3>' + Object.values(state.kids).map(kidSettingsHTML).join('') + '</div>' +
+      '<div class="settings-section"><h3>Ruleta de retos</h3><p class="sw-sub" style="margin-bottom:10px">Hay ' + state.challenges.length + ' retos. Edítalos cuando quieras.</p><button type="button" class="btn btn-ghost btn-block" data-action="openChallengeManager">🎡 Gestionar retos</button></div>' +
+      '<div class="settings-section"><h3>Sonido y vibración</h3><div class="switch-row"><span class="sw-label">Sonidos</span><label class="switch"><input type="checkbox" ' + (state.settings.sound ? 'checked' : '') + ' data-action="toggleSound"> <span></span></label></div><div class="switch-row"><span class="sw-label">Vibración</span><label class="switch"><input type="checkbox" ' + (state.settings.haptics ? 'checked' : '') + ' data-action="toggleHaptics"> <span></span></label></div></div>' +
+      '<div class="settings-section"><h3>Reiniciar (para pruebas)</h3><div class="reset-list"><button type="button" class="btn btn-ghost btn-block" data-action="resetToday">🔄 Reiniciar el día de hoy</button><button type="button" class="btn btn-ghost btn-block" data-action="resetProgress">📊 Reiniciar puntos y progreso</button><button type="button" class="btn btn-danger btn-block" data-action="resetAll">💥 Restablecer todo de fábrica</button></div><p class="sw-sub" style="margin-top:9px">Los nombres, fotos, misiones, premios y retos se conservan salvo en el restablecimiento total.</p></div>' +
+      '<div class="settings-section"><h3>Seguridad</h3><div class="field"><label>PIN de padre (4 dígitos)</label><input class="input" id="settingsPin" type="password" inputmode="numeric" maxlength="4" placeholder="' + (state.settings.pin ? '••••' : 'Sin PIN') + '" autocomplete="off"><small class="sw-sub">Deja vacío para quitar el bloqueo.</small></div></div>' +
+      '<input type="file" id="avatarFile" accept="image/*" class="hidden-file">' +
+      '<div class="modal-actions"><button type="button" class="btn btn-block" data-action="saveSettings">Guardar PIN</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cerrar</button></div>',
+      { wide: true }
+    );
+
+    const root = document.getElementById('modalRoot');
+    if (!root) return;
+
+    root.querySelectorAll('.kid-name-input').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const k = state.kids[inp.dataset.kid];
+        if (!k) return;
+        const val = inp.value.trim().slice(0, 14);
+        if (!val) return;
+        k.name = val;
+        save();
+        const sub = document.getElementById('brandSub');
+        if (sub) sub.textContent = Object.values(state.kids).map(x => x.name).join(' & ');
+      });
+      inp.addEventListener('change', () => {
+        renderAll();
+        openSettings();
+      });
+    });
+
+    const fileInput = document.getElementById('avatarFile');
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        const kidId = fileInput.dataset.kid;
+        toast('Preparando la foto...', '📷');
+        resizeImage(file, 256, dataUrl => {
+          if (!dataUrl) { toast('No se pudo leer la imagen', '⚠️'); return; }
+          if (state.kids[kidId]) {
+            state.kids[kidId].avatarImage = dataUrl;
+            save();
+            renderAll();
+            openSettings();
+            toast('¡Foto actualizada!', '📷');
+          }
+        });
+      });
+    }
+
+    const pinIn = document.getElementById('settingsPin');
+    if (pinIn) {
+      pinIn.addEventListener('keydown', e => { if (e.key === 'Enter') { const s = root.querySelector('[data-action="saveSettings"]'); if (s) s.click(); } });
+    }
+  }
+
+  function triggerAvatarUpload(kidId) {
+    const input = document.getElementById('avatarFile');
+    if (!input) return;
+    input.dataset.kid = kidId;
+    input.value = '';
+    input.click();
+  }
+
 
   // ==================== RENDER ====================
   const dateFmt = new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -2498,7 +2934,7 @@ textarea.input {
     const el = document.getElementById('kidSwitch');
     if (!el) return;
     el.innerHTML = Object.values(state.kids).map(k =>
-      '<button class="kid-chip ' + (k.id === state.activeKid ? 'active' : '') + '" data-action="switchKid" data-kid="' + k.id + '" aria-pressed="' + (k.id === state.activeKid) + '"><span class="chip-avatar">' + avatarSVG(k.avatar) + '</span><span>' + esc(k.name) + '</span></button>'
+      '<button class="kid-chip ' + (k.id === state.activeKid ? 'active' : '') + '" data-action="switchKid" data-kid="' + k.id + '" aria-pressed="' + (k.id === state.activeKid) + '"><span class="chip-avatar">' + avatarFor(k) + '</span><span>' + esc(k.name) + '</span></button>'
     ).join('');
   }
 
@@ -2509,7 +2945,7 @@ textarea.input {
     const info = levelInfo(kid.xp);
     const list = tasksToday(kid.id);
     const done = list.filter(t => t.doneDate === today()).length;
-    el.innerHTML = '<div class="avatar-wrap"><div class="avatar-ring"></div><div class="avatar">' + avatarSVG(kid.avatar) + '</div><span class="level-badge">Nv ' + info.level + '</span></div><div class="hero-info"><div class="hero-name-row"><span class="hero-name">' + esc(kid.name) + '</span><span class="level-name">' + esc(info.name) + '</span></div><div class="xp"><div class="xp-bar"><i style="width:' + info.pct + '%"></i></div><span class="xp-text">' + (info.next ? kid.xp + ' / ' + info.next + ' XP' : kid.xp + ' XP · máximo') + '</span></div><div class="mini-stats"><div class="mini-stat"><span class="ms-ico">🪙</span><div class="ms-col"><b>' + kid.coins + '</b><small>puntos</small></div></div><div class="mini-stat"><span class="ms-ico">🔥</span><div class="ms-col"><b>' + kid.streak + '</b><small>racha</small></div></div><div class="mini-stat"><span class="ms-ico">✅</span><div class="ms-col"><b>' + done + '/' + list.length + '</b><small>hoy</small></div></div></div></div>';
+    el.innerHTML = '<div class="avatar-wrap"><div class="avatar-ring"></div><div class="avatar">' + avatarFor(kid) + '</div><span class="level-badge">Nv ' + info.level + '</span></div><div class="hero-info"><div class="hero-name-row"><span class="hero-name">' + esc(kid.name) + '</span><span class="level-name">' + esc(info.name) + '</span></div><div class="xp"><div class="xp-bar"><i style="width:' + info.pct + '%"></i></div><span class="xp-text">' + (info.next ? kid.xp + ' / ' + info.next + ' XP' : kid.xp + ' XP · máximo') + '</span></div><div class="mini-stats"><div class="mini-stat"><span class="ms-ico">🪙</span><div class="ms-col"><b>' + kid.coins + '</b><small>puntos</small></div></div><div class="mini-stat"><span class="ms-ico">🔥</span><div class="ms-col"><b>' + kid.streak + '</b><small>racha</small></div></div><div class="mini-stat"><span class="ms-ico">✅</span><div class="ms-col"><b>' + done + '/' + list.length + '</b><small>hoy</small></div></div></div></div>';
   }
 
   function renderBottomNav() {
@@ -2534,10 +2970,15 @@ textarea.input {
   function taskCard(t, editing) {
     const r = REALMS[t.realm] || REALMS.db;
     const done = t.doneDate === today();
+    const failed = t.failedDate === today();
     const scheduled = t.days.includes(new Date().getDay());
-    const cls = ['task', done ? 'done' : '', editing ? 'editing' : '', justDone === t.id ? 'just-done' : ''].filter(Boolean).join(' ');
+    const cls = ['task', done ? 'done' : '', failed && !done ? 'failed' : '', editing ? 'editing' : '', justDone === t.id ? 'just-done' : ''].filter(Boolean).join(' ');
     const days = WEEK_ORDER.map(d => '<span class="day-dot ' + (t.days.includes(d) ? 'on' : '') + '">' + WEEK_LABELS[d] + '</span>').join('');
-    return '<article class="' + cls + '" style="--realm:' + r.color + ';--realm-soft:' + r.color + '22" ' + (editing ? '' : 'data-action="completeTask" data-id="' + t.id + '" role="button" tabindex="0" aria-label="Completar: ' + esc(t.title) + '"') + '><div class="task-icon">' + (t.icon || r.emoji) + '</div><div class="task-info"><h3 class="task-title">' + esc(t.title) + '</h3><div class="task-meta"><span class="pts">⭐ ' + t.points + '</span><span class="realm-tag">' + r.emoji + ' ' + r.name + '</span>' + (editing && !scheduled ? '<span class="day-tag">Hoy no toca</span>' : '') + '</div>' + (editing ? '<div class="day-dots">' + days + '</div>' : '') + '</div>' + (editing ? '<div class="task-tools"><button type="button" class="mini-btn" data-action="editTask" data-id="' + t.id + '" aria-label="Editar misión">✏️</button><button type="button" class="mini-btn danger" data-action="deleteTask" data-id="' + t.id + '" aria-label="Borrar misión">🗑️</button></div>' : '<div class="check" aria-hidden="true">✓</div>') + '</article>';
+    const penalty = (!editing && !done) ? '<button type="button" class="penalty-btn ' + (failed ? 'used' : '') + '" data-action="penalizeTask" data-id="' + t.id + '" aria-label="Restar ' + t.points + ' puntos: ' + esc(t.title) + '" title="' + (failed ? 'Ya restaste puntos hoy' : 'No la he hecho (−' + t.points + ')') + '">−</button>' : '';
+    const tools = editing
+      ? '<div class="task-tools"><button type="button" class="mini-btn" data-action="editTask" data-id="' + t.id + '" aria-label="Editar misión">✏️</button><button type="button" class="mini-btn danger" data-action="deleteTask" data-id="' + t.id + '" aria-label="Borrar misión">🗑️</button></div>'
+      : '<div class="task-side">' + penalty + '<div class="check" aria-hidden="true">✓</div></div>';
+    return '<article class="' + cls + '" style="--realm:' + r.color + ';--realm-soft:' + r.color + '22" ' + (editing ? '' : 'data-action="completeTask" data-id="' + t.id + '" role="button" tabindex="0" aria-label="Completar: ' + esc(t.title) + '"') + '><div class="task-icon">' + (t.icon || r.emoji) + '</div><div class="task-info"><h3 class="task-title">' + esc(t.title) + '</h3><div class="task-meta"><span class="pts">⭐ ' + t.points + '</span><span class="realm-tag">' + r.emoji + ' ' + r.name + '</span>' + (failed && !done ? '<span class="day-tag lost">−' + t.points + ' hoy</span>' : '') + (editing && !scheduled ? '<span class="day-tag">Hoy no toca</span>' : '') + '</div>' + (editing ? '<div class="day-dots">' + days + '</div>' : '') + '</div>' + tools + '</article>';
   }
 
   function viewMissions() {
@@ -2563,14 +3004,32 @@ textarea.input {
   function wheelMarkup(list) {
     const stops = list.map((c, i) => { const r = REALMS[c.realm]; const col = i % 2 === 0 ? r.colors[0] : r.colors[1]; return col + ' ' + (i * 45) + 'deg ' + ((i + 1) * 45) + 'deg'; }).join(', ');
     const labels = list.map((c, i) => '<div class="wheel-label" style="transform: rotate(' + (i * 45) + 'deg) translateY(-112px)"><span>' + c.icon + '</span></div>').join('');
-    return '<div class="wheel-rotor"><div class="wheel" style="background: conic-gradient(from -22.5deg, ' + stops + ')"></div><div class="wheel-labels">' + labels + '</div></div><div class="wheel-rim"></div><div class="wheel-hub">🎡</div><div class="wheel-pointer"></div>';
+    return '<div class="wheel-rotor" style="transform: rotate(' + (wheelAngle % 360) + 'deg)"><div class="wheel" style="background: conic-gradient(from -22.5deg, ' + stops + ')"></div><div class="wheel-labels">' + labels + '</div></div><div class="wheel-rim"></div><div class="wheel-hub">🎡</div><div class="wheel-pointer"></div>';
+  }
+
+  function challengeResultHTML(ch) {
+    if (!ch) return '';
+    const r = REALMS[ch.realm] || REALMS.db;
+    return '<div class="challenge-realm" style="--challenge-color:' + r.color + ';--challenge-soft:' + r.color + '22">' + r.emoji + ' ' + r.name + '</div>' +
+      '<div class="challenge-emoji">' + ch.icon + '</div>' +
+      '<h2 class="challenge-title">' + esc(ch.text) + '</h2>' +
+      '<div class="challenge-pts">+' + ch.points + ' puntos si lo consigues</div>' +
+      '<div class="challenge-actions">' +
+        '<button type="button" class="btn btn-block" data-action="challengeComplete"' + (challengeClaimed ? ' disabled' : '') + '>' + (challengeClaimed ? '✅ ¡Reto conseguido!' : '✅ ¡Conseguido!') + '</button>' +
+        '<button type="button" class="btn btn-ghost" data-action="spin">🎡 Girar otra vez</button>' +
+      '</div>';
   }
 
   function viewWheel() {
     if (!wheelPicks || wheelPicks.length !== 8) wheelPicks = sampleChallenges();
-    const wheel = wheelMarkup(wheelPicks);
     const kid = currentKid();
-    return '<div class="section-head"><div><h2>Ruleta de retos</h2><p>Gira, acepta el reto y suma puntos extra</p></div></div><div class="wheel-page"><div class="wheel-stage" id="wheelStage">' + wheel + '</div><button type="button" class="spin-btn" id="spinBtn" data-action="spin" ' + (spinning ? 'disabled' : '') + '>' + (spinning ? '🎲 Girando...' : '🎡 ¡GIRAR LA RULETA!') + '</button><div class="challenge-stats"><span class="stat-pill">🎯 Retos superados: <b>' + kid.stats.challenges + '</b></span><span class="stat-pill">🔥 Racha: <b>' + kid.streak + '</b> días</span></div><div class="wheel-note"><b>Para ' + esc(kid.name) + '.</b> Gira la ruleta y completa el reto que salga. Si lo consigues, pulsa <b>¡Conseguido!</b> y gana los puntos. Puedes girar todas las veces que quieras.</div></div>';
+    const hasChallenges = state.challenges.length > 0;
+    const head = '<div class="section-head"><div><h2>Ruleta de retos</h2><p>Gira, acepta el reto y suma puntos extra</p></div><div class="head-actions"><button type="button" class="pill-btn" data-action="openChallengeManager">✏️ Retos</button></div></div>';
+    if (!hasChallenges) {
+      return head + '<div class="empty"><span class="empty-emoji">🎡</span><h3>La ruleta está vacía</h3><p>Añade retos para poder girar.</p><button type="button" class="btn" style="margin-top:14px" data-action="openChallengeManager">➕ Añadir retos</button></div>';
+    }
+    const wheel = wheelMarkup(wheelPicks);
+    return head + '<div class="wheel-page"><div class="wheel-stage" id="wheelStage">' + wheel + '</div><button type="button" class="spin-btn" id="spinBtn" data-action="spin" ' + (spinning ? 'disabled' : '') + '>' + (spinning ? '🎲 Girando...' : '🎡 ¡GIRAR LA RULETA!') + '</button><div class="challenge-stats"><span class="stat-pill">🎯 Retos superados: <b>' + kid.stats.challenges + '</b></span><span class="stat-pill">🔥 Racha: <b>' + kid.streak + '</b> días</span></div><div id="challengeCard" class="challenge-card">' + challengeResultHTML(activeChallenge) + '</div><div class="wheel-note"><b>Para ' + esc(kid.name) + '.</b> Gira la ruleta y completa el reto que salga. Si lo consigues, pulsa <b>¡Conseguido!</b> y gana los puntos. Puedes girar todas las veces que quieras.</div></div>';
   }
 
   function rewardCard(r, kid) {
@@ -2585,7 +3044,7 @@ textarea.input {
   }
 
   function fmtLogDate(ts) { const d = new Date(ts); const k = dayKey(d); if (k === today()) return 'Hoy'; if (k === yesterdayKey()) return 'Ayer'; return d.getDate() + '/' + (d.getMonth() + 1); }
-  const KIND_ICON = { complete: '✅', challenge: '🎡', bonus: '🏆', reward: '🎁' };
+  const KIND_ICON = { complete: '✅', challenge: '🎡', bonus: '🏆', reward: '🎁', penalty: '➖' };
 
   function viewProgress() {
     const kid = currentKid();
@@ -2644,6 +3103,7 @@ textarea.input {
         const todayKey = dayKey(new Date());
         t.doneDate = todayKey;
         completing.add(tId);
+        kid.stats.total += 1;
         const res = award(kidId, t.points, 'complete', t.title);
         syncAllBadges();
         setTimeout(() => {
@@ -2653,6 +3113,28 @@ textarea.input {
           haptic(40);
           checkPerfectDay(kidId);
         }, 400);
+        return;
+      }
+
+      // --- Restar puntos por misión no hecha ---
+      if (action === 'penalizeTask') {
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (spinning) return;
+        const tId = el.dataset.id;
+        const t = state.tasks.find(x => x.id === tId && x.kid === kidId);
+        if (!t) return;
+        if (t.doneDate === today()) { toast('Esta misión ya está completada', '✅'); return; }
+        if (t.failedDate === today()) { toast('Ya restaste los puntos de esta misión hoy', '➖'); return; }
+        confirmAction('¿Restar ' + t.points + ' puntos?', 'Se restarán ' + t.points + ' puntos a ' + kid.name + ' por no hacer «' + t.title + '». Si luego la hace, puede marcarla igualmente.', 'Sí, restar', () => {
+          t.failedDate = today();
+          penalize(kidId, t.points, 'penalty', 'No hecha: ' + t.title);
+          save();
+          renderAll();
+          sound.error();
+          haptic(60);
+          toast('−' + t.points + ' puntos · ' + t.title, '➖');
+        });
         return;
       }
 
@@ -2797,7 +3279,7 @@ textarea.input {
         }
         kid.coins -= r.cost;
         kid.stats.rewardsRedeemed++;
-        pushLog(kid.id, 'reward', r.title, -r.cost);
+        pushLog(kid.id, 'reward', r.title, -r.cost, { dXp: 0, dCoins: -r.cost });
         save();
         renderAll();
         showTicket(r, kid);
@@ -2808,32 +3290,44 @@ textarea.input {
       if (action === 'spin') {
         ev.preventDefault();
         if (spinning) return;
+        if (!state.challenges.length) { toast('Añade retos antes de girar', '🎡'); return; }
+        if (!wheelPicks || wheelPicks.length !== 8) wheelPicks = sampleChallenges();
+        if (!wheelPicks.length) return;
+
         spinning = true;
+        challengeClaimed = false;
+        activeChallenge = null;
         const spinBtn = document.getElementById('spinBtn');
-        if (spinBtn) spinBtn.disabled = true;
+        if (spinBtn) { spinBtn.disabled = true; spinBtn.textContent = '🎲 Girando...'; }
+        const card = document.getElementById('challengeCard');
+        if (card) card.innerHTML = '';
         sound.win();
 
-        if (!wheelPicks || wheelPicks.length !== 8) wheelPicks = sampleChallenges();
         const idx = Math.floor(Math.random() * wheelPicks.length);
-        activeChallenge = wheelPicks[idx];
-
         const rotor = document.querySelector('.wheel-rotor');
         if (rotor) {
           const totalRotations = 5 + Math.floor(Math.random() * 3);
-          const finalAngle = (idx * 45) + (360 * totalRotations);
+          // El puntero está arriba: el centro de la porción idx debe quedar en 0º
+          const targetMod = ((360 - ((idx * 45) % 360)) % 360);
+          const currentMod = ((wheelAngle % 360) + 360) % 360;
+          const delta = ((targetMod - currentMod) + 360) % 360;
+          wheelAngle += totalRotations * 360 + delta;
           rotor.style.transition = 'transform 5.2s cubic-bezier(0.22, 1, 0.36, 1)';
-          rotor.style.transform = 'rotate(' + finalAngle + 'deg)';
+          rotor.style.transform = 'rotate(' + wheelAngle + 'deg)';
         }
 
         setTimeout(() => {
           spinning = false;
-          if (spinBtn) spinBtn.disabled = false;
-          sound.win();
-          const card = document.getElementById('challengeCard');
-          if (card) {
-            const r = REALMS[activeChallenge.realm];
-            card.innerHTML = '<div class="challenge-realm"><span>' + r.emoji + ' ' + r.name + '</span></div><div class="challenge-emoji">' + activeChallenge.icon + '</div><h2 class="challenge-title">' + esc(activeChallenge.text) + '</h2><div class="challenge-pts">' + activeChallenge.points + ' pts</div><div class="modal-actions"><button type="button" class="btn btn-block" data-action="challengeComplete">✅ ¡Conseguido!</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cerrar</button></div>';
+          activeChallenge = wheelPicks[idx];
+          const btn = document.getElementById('spinBtn');
+          if (btn) { btn.disabled = false; btn.textContent = '🎡 ¡GIRAR LA RULETA!'; }
+          const resultCard = document.getElementById('challengeCard');
+          if (resultCard) {
+            resultCard.innerHTML = challengeResultHTML(activeChallenge);
+            try { resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) {}
           }
+          sound.win();
+          haptic(30);
         }, 5300);
         return;
       }
@@ -2841,52 +3335,162 @@ textarea.input {
       // --- Reto completado ---
       if (action === 'challengeComplete') {
         ev.preventDefault();
-        if (!activeChallenge) return;
-        const kid = currentKid();
-        const res = award(kid.id, activeChallenge.points, 'challenge', activeChallenge.text);
+        if (!activeChallenge || challengeClaimed) return;
+        const chall = activeChallenge;
+        const targetKid = currentKid();
+        challengeClaimed = true;
+        targetKid.stats.challenges += 1;
+        const res = award(targetKid.id, chall.points, 'challenge', chall.text);
         syncAllBadges();
         const card = document.getElementById('challengeCard');
         if (card) {
-          const r = REALMS[activeChallenge.realm] || REALMS.db;
-          burstAt(card.offsetLeft + card.clientWidth / 2, card.offsetTop + card.clientHeight / 2, activeChallenge.realm);
-          floatPoints(card.offsetLeft + card.clientWidth / 2, card.offsetTop + card.clientHeight / 2, '+' + activeChallenge.points + '⭐', r.color);
+          const r = REALMS[chall.realm] || REALMS.db;
+          burstAt(card.offsetLeft + card.clientWidth / 2, card.offsetTop + card.clientHeight / 2, chall.realm);
+          floatPoints(card.offsetLeft + card.clientWidth / 2, card.offsetTop + card.clientHeight / 2, '+' + chall.points + '⭐', r.color);
+          card.innerHTML = challengeResultHTML(chall);
         }
-        pushLog(kid.id, 'challenge', activeChallenge.text, activeChallenge.points);
-        sound.complete(activeChallenge.realm);
+        save();
+        sound.complete(chall.realm);
         haptic(40);
-        toast('¡Reto conseguido! +' + activeChallenge.points + ' pts', activeChallenge.icon);
-        activeChallenge = null;
-        setTimeout(() => { renderAll(); }, 600);
+        confettiRain(50);
+        toast('¡Reto conseguido! +' + chall.points + ' pts', chall.icon);
+        handleAwardOutcome(targetKid.id, res);
+        setTimeout(() => { renderAll(); }, 900);
         return;
       }
 
       // --- Abrir ajustes ---
       if (action === 'openSettings') {
         ev.preventDefault();
-        openModal('<h2>Ajustes de la app</h2><div class="switch-row"><span class="sw-label">Sonidos</span><label class="switch"><input type="checkbox" ' + (state.settings.sound ? 'checked' : '') + ' data-action="toggleSound"> <span class="slider round"></span></label></div><div class="switch-row"><span class="sw-label">Vibración</span><label class="switch"><input type="checkbox" ' + (state.settings.haptics ? 'checked' : '') + ' data-action="toggleHaptics"> <span class="slider round"></span></label></div><div class="field"><label>PIN de padre (4 dígitos)</label><input class="input" id="settingsPin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off"><small class="sw-sub">Deja vacío para quitar bloqueo.</small></div><div class="modal-actions"><button type="button" class="btn btn-block" data-action="saveSettings">Guardar</button><button type="button" class="btn btn-ghost" data-action="closeModal">Cancelar</button></div>');
+        openSettings();
+        return;
+      }
+
+      // --- Elegir avatar integrado ---
+      if (action === 'pickAvatar') {
+        ev.preventDefault();
+        const k = state.kids[el.dataset.kid];
+        if (!k) return;
+        k.avatar = AVATARS[el.dataset.avatar] ? el.dataset.avatar : 'saiyan';
+        k.avatarImage = null;
+        save();
+        renderAll();
+        openSettings();
+        toast('Avatar cambiado', '🎨');
+        return;
+      }
+
+      // --- Subir foto personalizada ---
+      if (action === 'uploadAvatar') {
+        ev.preventDefault();
+        triggerAvatarUpload(el.dataset.kid);
+        return;
+      }
+
+      // --- Quitar foto personalizada ---
+      if (action === 'clearAvatar') {
+        ev.preventDefault();
+        const k = state.kids[el.dataset.kid];
+        if (!k) return;
+        k.avatarImage = null;
+        save();
+        renderAll();
+        openSettings();
+        toast('Foto quitada', '🧑‍🎨');
+        return;
+      }
+
+      // --- Gestionar retos ---
+      if (action === 'openChallengeManager') {
+        ev.preventDefault();
+        openChallengeManager();
+        return;
+      }
+
+      if (action === 'addChallenge') {
+        ev.preventDefault();
+        openChallengeForm(null, el.dataset.realm || 'db');
+        return;
+      }
+
+      if (action === 'editChallenge') {
+        ev.preventDefault();
+        const ch = state.challenges.find(c => c.id === el.dataset.id);
+        if (!ch) return;
+        openChallengeForm(ch, ch.realm);
+        return;
+      }
+
+      if (action === 'deleteChallenge') {
+        ev.preventDefault();
+        const ch = state.challenges.find(c => c.id === el.dataset.id);
+        if (!ch) return;
+        confirmAction('¿Borrar reto?', 'Se eliminará «' + ch.text + '» de la ruleta.', 'Borrar', () => {
+          state.challenges = state.challenges.filter(c => c.id !== ch.id);
+          wheelPicks = [];
+          save();
+          renderAll();
+          openChallengeManager();
+          toast('Reto borrado', '🗑️');
+        });
+        return;
+      }
+
+      // --- Reinicios de prueba ---
+      if (action === 'resetToday') {
+        ev.preventDefault();
+        confirmAction('¿Reiniciar hoy?', 'Se borrarán las misiones completadas y los puntos de hoy. Los nombres, fotos y configuración se mantienen.', 'Reiniciar hoy', () => {
+          resetTodayProgress();
+          openSettings();
+          toast('Día reiniciado', '🔄');
+        }, false);
+        return;
+      }
+
+      if (action === 'resetProgress') {
+        ev.preventDefault();
+        confirmAction('¿Reiniciar progreso?', 'Puntos, niveles, rachas, insignias e historial volverán a cero. Las misiones, premios, retos, nombres y fotos se conservan.', 'Reiniciar progreso', () => {
+          resetProgressAll();
+          openSettings();
+          toast('Progreso reiniciado', '📊');
+        });
+        return;
+      }
+
+      if (action === 'resetAll') {
+        ev.preventDefault();
+        confirmAction('¿Restablecer TODO?', 'Se borrarán también nombres, fotos, misiones, premios y retos. La app volverá a como estaba al principio. Esta acción no se puede deshacer.', 'Sí, restablecer todo', () => {
+          resetEverything();
+          openSettings();
+          toast('App restablecida', '💥');
+        });
+        return;
+      }
+
+      // --- Toques de ajustes ---
+      if (action === 'toggleSound') {
+        state.settings.sound = el.checked;
+        save();
+        toast(el.checked ? 'Sonidos activados' : 'Sonidos desactivados', '🔊');
+        return;
+      }
+
+      if (action === 'toggleHaptics') {
+        state.settings.haptics = el.checked;
+        save();
+        toast(el.checked ? 'Vibración activada' : 'Vibración desactivada', '📳');
+        return;
+      }
+
+      if (action === 'saveSettings') {
+        ev.preventDefault();
         const pinIn = document.getElementById('settingsPin');
-        if (pinIn) {
-          pinIn.addEventListener('keydown', e => { if (e.key === 'Enter') { const s = document.getElementById('modalRoot').querySelector('[data-action="saveSettings"]'); if (s) s.click(); } });
-          setTimeout(() => pinIn.focus({ preventScroll: true }), 220);
-        }
-        const toggleSound = document.getElementById('modalRoot').querySelector('[data-action="toggleSound"]');
-        if (toggleSound) {
-          toggleSound.addEventListener('change', e => { state.settings.sound = e.target.checked; save(); toast(e.target.checked ? 'Sonidos activados' : 'Sonidos desactivados', '🔊'); });
-        }
-        const toggleHaptics = document.getElementById('modalRoot').querySelector('[data-action="toggleHaptics"]');
-        if (toggleHaptics) {
-          toggleHaptics.addEventListener('change', e => { state.settings.haptics = e.target.checked; save(); toast(e.target.checked ? 'Vibración activada' : 'Vibración desactivada', '📳'); });
-        }
-        const saveS = document.getElementById('modalRoot').querySelector('[data-action="saveSettings"]');
-        if (saveS) {
-          saveS.addEventListener('click', () => {
-            if (pinIn && pinIn.value.trim() && pinIn.value.trim() !== state.settings.pin) { toast('PIN incorrecto', '🔒'); return; }
-            state.settings.pin = pinIn ? pinIn.value.trim() : '';
-            save();
-            closeModal();
-            toast('Ajustes guardados', '✅');
-          });
-        }
+        const val = pinIn ? pinIn.value.trim() : '';
+        if (val && !/^\d{4}$/.test(val)) { toast('El PIN debe tener 4 números', '🔒'); return; }
+        state.settings.pin = val;
+        save();
+        closeModal();
+        toast(val ? 'PIN guardado' : 'PIN desactivado', '🔐');
         return;
       }
 
